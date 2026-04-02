@@ -182,45 +182,138 @@ const createDecision = async (req, res) => {
   }
 };
 
+// const updateDecision = async (req, res) => {
+//   try {
+//     const decision = await Decision.findById(req.params.id);
+
+//     if (!decision) {
+//       return res.status(404).json({ message: 'Decision not found' });
+//     }
+
+//     if (
+//   decision.user.toString() !== req.user.id &&
+//   req.user.role !== 'admin'
+// ) {
+//   return res.status(401).json({ message: 'Not authorized' });
+// }
+
+//     const oldStatus = decision.status;
+//     const newStatus = req.body.status;
+
+//     const updatedDecision = await Decision.findByIdAndUpdate(
+//       req.params.id,
+//       req.body,
+//       { new: true }
+//     ).populate('createdBy', 'name email');
+
+//     // NOTIFY USER IF ADMIN CHANGED STATUS
+//     if (req.user.role === 'admin' && oldStatus !== newStatus) {
+//       if (newStatus === 'approved') {
+//         await createNotification(
+//           updatedDecision.createdBy._id,
+//           'decision_approved',
+//           `Your decision "${updatedDecision.title}" has been approved!`,
+//           updatedDecision._id
+//         );
+//       } else if (newStatus === 'rejected') {
+//         await createNotification(
+//           updatedDecision.createdBy._id,
+//           'decision_rejected',
+//           `Your decision "${updatedDecision.title}" has been rejected.`,
+//           updatedDecision._id
+//         );
+//       }
+//     }
+
+//     res.json(updatedDecision);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+// const updateDecision = async (req, res) => {
+//   try {
+//     const decision = await Decision.findById(req.params.id);
+
+//     if (!decision) {
+//       return res.status(404).json({ message: 'Decision not found' });
+//     }
+
+//     // ✅ FIXED AUTH CHECK (ADMIN + OWNER)
+//     if (
+//       decision.createdBy.toString() !== req.user._id.toString() &&
+//       req.user.role !== 'admin'
+//     ) {
+//       return res.status(403).json({ message: 'Not authorized' });
+//     }
+
+//     const oldStatus = decision.status;
+//     const newStatus = req.body.status;
+
+//     const updatedDecision = await Decision.findByIdAndUpdate(
+//       req.params.id,
+//       req.body,
+//       { new: true }
+//     ).populate('createdBy', 'name email');
+
+//     // ✅ NOTIFY USER IF ADMIN CHANGED STATUS
+//     if (req.user.role === 'admin' && oldStatus !== newStatus) {
+//       if (newStatus === 'approved') {
+//         await createNotification(
+//           updatedDecision.createdBy._id,
+//           'decision_approved',
+//           `Your decision "${updatedDecision.title}" has been approved!`,
+//           updatedDecision._id
+//         );
+//       } else if (newStatus === 'rejected') {
+//         await createNotification(
+//           updatedDecision.createdBy._id,
+//           'decision_rejected',
+//           `Your decision "${updatedDecision.title}" has been rejected.`,
+//           updatedDecision._id
+//         );
+//       }
+//     }
+
+//     res.json(updatedDecision);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+const { createNotification } = require('./notificationController'); // 👈 ADD THIS AT TOP
+
 const updateDecision = async (req, res) => {
   try {
-    const decision = await Decision.findById(req.params.id);
+    const decision = await Decision.findById(req.params.id).populate('createdBy');
 
     if (!decision) {
       return res.status(404).json({ message: 'Decision not found' });
     }
 
-    if (
-  decision.user.toString() !== req.user.id &&
-  req.user.role !== 'admin'
-) {
-  return res.status(401).json({ message: 'Not authorized' });
-}
-
     const oldStatus = decision.status;
-    const newStatus = req.body.status;
 
-    const updatedDecision = await Decision.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    ).populate('createdBy', 'name email');
+    // Update fields
+    decision.status = req.body.status || decision.status;
 
-    // NOTIFY USER IF ADMIN CHANGED STATUS
-    if (req.user.role === 'admin' && oldStatus !== newStatus) {
-      if (newStatus === 'approved') {
+    const updatedDecision = await decision.save();
+
+    // ✅ STEP 4: CREATE NOTIFICATION WHEN STATUS CHANGES
+    if (oldStatus !== updatedDecision.status) {
+      let message = '';
+
+      if (updatedDecision.status === 'approved') {
+        message = `Your decision "${updatedDecision.title}" was approved`;
+      } else if (updatedDecision.status === 'rejected') {
+        message = `Your decision "${updatedDecision.title}" was rejected`;
+      }
+
+      if (message) {
         await createNotification(
-          updatedDecision.createdBy._id,
-          'decision_approved',
-          `Your decision "${updatedDecision.title}" has been approved!`,
-          updatedDecision._id
-        );
-      } else if (newStatus === 'rejected') {
-        await createNotification(
-          updatedDecision.createdBy._id,
-          'decision_rejected',
-          `Your decision "${updatedDecision.title}" has been rejected.`,
-          updatedDecision._id
+          decision.createdBy._id, // send to creator
+          `decision_${updatedDecision.status}`,
+          message,
+          decision._id
         );
       }
     }
@@ -230,6 +323,7 @@ const updateDecision = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 const deleteDecision = async (req, res) => {
   try {
