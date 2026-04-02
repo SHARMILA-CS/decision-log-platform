@@ -2,8 +2,8 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+const generateToken = (id,role) => {
+  return jwt.sign({ id ,role}, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };
@@ -36,7 +36,7 @@ const register = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id),
+        token: generateToken(user._id,user.role),
       });
     }
   } catch (error) {
@@ -60,7 +60,7 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id),
+        token: generateToken(user._id,user.role),
       });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });

@@ -190,9 +190,12 @@ const updateDecision = async (req, res) => {
       return res.status(404).json({ message: 'Decision not found' });
     }
 
-    if (decision.createdBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Not authorized to update this decision' });
-    }
+    if (
+  decision.user.toString() !== req.user.id &&
+  req.user.role !== 'admin'
+) {
+  return res.status(401).json({ message: 'Not authorized' });
+}
 
     const oldStatus = decision.status;
     const newStatus = req.body.status;
