@@ -1,4 +1,4 @@
-<!-- # Web-Based Decision Logging System
+<!-- <!-- # Web-Based Decision Logging System
 
 A comprehensive decision logging system built with the MERN stack that allows organizations to record, track, and manage important decisions with complete audit trails.
 
@@ -208,7 +208,7 @@ Bannari Amman Institute of Technology
 **Made with ❤️ for efficient decision management** -->
 
 
-
+<!-- 
 # Educational Institution Decision Management System
 
 A comprehensive decision management system specifically designed for educational institutions to manage, track, and approve decisions across different departments with integrated leave management.
@@ -504,4 +504,294 @@ Bannari Amman Institute of Technology
 
 ---
 
-**Made with ❤️ for efficient institutional decision management**
+**Made with ❤️ for efficient institutional decision management** --> 
+
+# Decision Logging System
+
+A full-stack MERN (MongoDB, Express.js, React, Node.js) application for tracking and managing organizational decisions with role-based access control.
+
+## 👩‍💻 Developer
+**Name:** SHARMILA S  
+**College:** Bannari Amman Institute of Technology  
+**Program:** Computer Science & Engineering
+
+---
+
+## ✨ Features
+
+### Core Functionality
+- ✅ **User Authentication** - Register, Login, Forgot Password
+- ✅ **Role-Based Access** - User and Admin roles
+- ✅ **Decision Management** - Create, Edit, Delete, View decisions
+- ✅ **Categories System** - Technical, Business, Personal, Financial, Strategic, Operational
+- ✅ **Tags System** - Add multiple tags to organize decisions
+- ✅ **Status Workflow** - Pending → Approved/Rejected (Admin only)
+- ✅ **Notifications** - Real-time notifications for decision status changes
+- ✅ **Filtering** - Filter by status and category
+- ✅ **Responsive Design** - Works on desktop and mobile
+
+### User Capabilities
+- Create decisions with detailed information
+- Categorize decisions with predefined categories
+- Add custom tags for better organization
+- View own decisions
+- Receive notifications when admin approves/rejects decisions
+
+### Admin Capabilities
+- View all decisions from all users
+- Approve or reject pending decisions
+- Edit decision status
+- Receive notifications when users create decisions
+- Full CRUD operations on all decisions
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React.js** - UI Framework
+- **React Router** - Navigation
+- **Axios** - HTTP Client
+- **Context API** - State Management
+- **CSS3** - Styling with Gradients
+
+### Backend
+- **Node.js** - Runtime Environment
+- **Express.js** - Web Framework
+- **MongoDB** - Database
+- **Mongoose** - ODM
+- **JWT** - Authentication
+- **bcrypt.js** - Password Hashing
+- **crypto** - Token Generation
+
+---
+
+## 📦 Installation & Setup
+
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (running locally or MongoDB Atlas)
+- Git
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/SHARMILA-CS/decision-log-platform.git
+cd decision-log-platform
+```
+
+### 2. Backend Setup
+```bash
+cd backend
+npm install
+```
+
+Create `.env` file in `backend/` folder:
+```env
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/decision-logging
+JWT_SECRET=your_secret_key_here_12345
+```
+
+Start backend server:
+```bash
+npm run dev
+```
+Backend runs on: `http://localhost:5000`
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm start
+```
+Frontend runs on: `http://localhost:3000`
+
+---
+
+## 🎯 Usage Guide
+
+### First Time Setup
+
+1. **Register Account**
+   - Go to http://localhost:3000/register
+   - Fill: Name, Email, Password
+   - Click Register
+
+2. **Create Admin User** (Optional)
+   - Register normally
+   - Open MongoDB Compass
+   - Database: `decision-logging`
+   - Collection: `users`
+   - Find your user and change `role: "user"` to `role: "admin"`
+
+3. **Login**
+   - Use your credentials
+   - Start creating decisions!
+
+### Creating a Decision
+
+1. Click **"Add New Decision"**
+2. Fill required fields:
+   - **Title** - Decision name
+   - **Category** - Select from dropdown
+   - **Tags** - Add custom tags (optional)
+   - **Description** - Problem description
+   - **Options Considered** - Alternative options
+   - **Final Decision** - What was decided
+   - **Reason** - Justification
+3. Click **"Create Decision"**
+
+### Admin Workflow
+
+1. Login as admin
+2. View all pending decisions on dashboard
+3. Click **"Edit"** on any decision
+4. Change **Status** to Approved/Rejected
+5. Save changes
+6. User receives notification automatically
+
+---
+
+## 📂 Project Structure
+```
+decision-logging-system/
+├── backend/
+│   ├── config/
+│   │   └── db.js                 # MongoDB connection
+│   ├── controllers/
+│   │   ├── authController.js     # Auth logic (register, login, forgot password)
+│   │   ├── decisionController.js # Decision CRUD operations
+│   │   └── notificationController.js # Notification management
+│   ├── middleware/
+│   │   └── auth.js               # JWT verification
+│   ├── models/
+│   │   ├── User.js               # User schema
+│   │   ├── Decision.js           # Decision schema with categories & tags
+│   │   └── Notification.js       # Notification schema
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── decisionRoutes.js
+│   │   └── notificationRoutes.js
+│   ├── .env                      # Environment variables
+│   ├── package.json
+│   └── server.js                 # Entry point
+│
+└── frontend/
+    ├── public/
+    └── src/
+        ├── components/
+        │   ├── Navbar.js         # Navigation bar
+        │   └── PrivateRoute.js   # Protected route wrapper
+        ├── context/
+        │   └── AuthContext.js    # Authentication context
+        ├── pages/
+        │   ├── Login.js
+        │   ├── Register.js
+        │   ├── ForgotPassword.js
+        │   ├── ResetPassword.js
+        │   ├── Dashboard.js      # Main dashboard with filters
+        │   ├── AddDecision.js    # Create new decision
+        │   └── EditDecision.js   # Edit existing decision
+        ├── utils/
+        │   └── api.js            # Axios configuration
+        ├── App.js                # Main app component
+        └── index.js              # Entry point
+```
+
+---
+
+## 🔐 Security Features
+
+- ✅ Password hashing with bcrypt
+- ✅ JWT token-based authentication
+- ✅ Protected API routes
+- ✅ Password reset with time-limited tokens
+- ✅ Role-based authorization
+- ✅ Input validation
+
+---
+
+## 📸 Screenshots
+
+### Login Page
+Clean authentication interface with forgot password link
+
+### Dashboard
+Categorized decision cards with status badges and filtering options
+
+### Add Decision
+Comprehensive form with categories, tags, and detailed fields
+
+### Notifications
+Real-time updates on decision status changes
+
+---
+
+## 🚀 Future Enhancements
+
+- [ ] Search functionality
+- [ ] Date range filtering
+- [ ] Decision history/version tracking
+- [ ] Export decisions to PDF/Excel
+- [ ] Email notifications (currently console-logged)
+- [ ] Advanced analytics dashboard
+- [ ] File attachments for decisions
+
+---
+
+## 📝 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user
+- `POST /api/auth/forgot-password` - Request password reset
+- `PUT /api/auth/reset-password/:token` - Reset password
+
+### Decisions
+- `GET /api/decisions` - Get all decisions (filtered by role)
+- `POST /api/decisions` - Create decision
+- `GET /api/decisions/:id` - Get single decision
+- `PUT /api/decisions/:id` - Update decision
+- `DELETE /api/decisions/:id` - Delete decision
+
+### Notifications
+- `GET /api/notifications` - Get my notifications
+- `GET /api/notifications/unread-count` - Get unread count
+- `PUT /api/notifications/:id/read` - Mark as read
+- `PUT /api/notifications/mark-all-read` - Mark all as read
+
+---
+
+## 🐛 Known Issues
+
+- Email sending is simulated (check console for reset links)
+- No file upload capability yet
+- Limited to 6 predefined categories
+
+---
+
+## 📄 License
+
+This project is for educational purposes as part of college coursework.
+
+---
+
+## 🙏 Acknowledgments
+
+- Bannari Amman Institute of Technology
+- MERN Stack Community
+- MongoDB Documentation
+- React Documentation
+
+---
+
+## 📞 Contact
+
+For any queries regarding this project:
+- **GitHub:** [@SHARMILA-CS](https://github.com/SHARMILA-CS)
+- **Email:** [Your Email]
+
+---
+
+**Made with ❤️ by SHARMILA S**
