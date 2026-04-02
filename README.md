@@ -1,4 +1,4 @@
-# Web-Based Decision Logging System
+<!-- # Web-Based Decision Logging System
 
 A comprehensive decision logging system built with the MERN stack that allows organizations to record, track, and manage important decisions with complete audit trails.
 
@@ -205,4 +205,303 @@ Bannari Amman Institute of Technology
 
 ---
 
-**Made with ❤️ for efficient decision management**
+**Made with ❤️ for efficient decision management** -->
+
+
+
+# Educational Institution Decision Management System
+
+A comprehensive decision management system specifically designed for educational institutions to manage, track, and approve decisions across different departments with integrated leave management.
+
+## 🎯 Problem Statement
+
+Educational institutions make hundreds of decisions daily across different departments:
+- **Academic decisions**: Syllabus changes, exam schedules, course modifications
+- **Infrastructure decisions**: Building renovations, equipment purchases, lab upgrades
+- **Administrative decisions**: Policy changes, event approvals, budget allocations
+- **Leave management**: Faculty/staff leave applications with multi-level approval workflow
+- **HR decisions**: Faculty hiring, salary revisions, promotions
+- **Finance decisions**: Budget approvals, expenditure authorization
+
+Currently, these decisions are scattered across emails, WhatsApp groups, and physical files, making it difficult to:
+- Track decision history and audit trails
+- Implement proper approval workflows
+- Monitor leave balances and approvals
+- Generate reports and analytics
+- Ensure accountability and transparency
+
+## ✨ Solution
+
+Our system centralizes all institutional decisions with:
+- ✅ **Department-wise categorization** (CSE, ECE, MECH, CIVIL, EEE, etc.)
+- ✅ **Category-based organization** (Academic, Infrastructure, Administrative, Leave, Finance, HR)
+- ✅ **Multi-level approval workflow** (Faculty → HOD → Principal → Management)
+- ✅ **Integrated leave management** with automatic balance tracking
+- ✅ **Role-based access control** (Faculty, HOD, Principal, Admin)
+- ✅ **Priority-based decision handling** (Low, Medium, High, Urgent)
+- ✅ **Complete audit trail** with timestamps and approver history
+
+## 🚀 Key Features
+
+### 1. Decision Management
+- Create decisions with category, department, and priority
+- Track decision status through approval workflow
+- View decision history with complete audit trail
+- Filter decisions by status, category, and department
+- Department-wise access control
+
+### 2. Leave Management System
+- **Apply for Leave**: Faculty can apply for different leave types
+- **Leave Types**: Casual, Sick, Earned, Maternity, Compensatory
+- **Leave Balance Tracking**: Automatic tracking of available/used leaves
+- **Multi-level Approval**: 
+  - Faculty applies → HOD approves → Principal approves → Admin finalizes
+- **Leave History**: Complete record of all leave applications
+- **Approval Dashboard**: Separate dashboards for HOD, Principal, and Admin
+
+### 3. Role-Based Access
+- **Faculty**: Can create decisions, apply for leave, view their submissions
+- **HOD**: Can approve department decisions and leaves, view department data
+- **Principal**: Can approve all decisions and leaves, institution-wide visibility
+- **Admin**: Full system access, final approval authority
+
+### 4. Approval Workflow
+- Pending → HOD Approved → Principal Approved → Approved
+- Comments and notes at each approval stage
+- Rejection with reason tracking
+- Email notifications (planned for Phase 2)
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React.js** - Component-based UI
+- **React Router DOM** - Navigation
+- **Axios** - API communication
+- **CSS3** - Modern gradient design
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MongoDB** - Database
+- **Mongoose** - ODM
+- **JWT** - Authentication
+- **Bcrypt** - Password hashing
+
+## 📋 Prerequisites
+
+- Node.js (v14 or higher)
+- MongoDB (v4.4 or higher)
+- npm or yarn
+
+## 🔧 Installation & Setup
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/SHARMILA-CS/decision-logging-system.git
+cd decision-logging-system
+```
+
+### 2. Backend Setup
+```bash
+cd backend
+npm install
+```
+
+Create `.env` file:
+```env
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/educational-decision-system
+JWT_SECRET=your_secret_key_here_12345
+```
+
+Start backend:
+```bash
+npm run dev
+```
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm start
+```
+
+## 📁 Project Structure
+```
+educational-institution-decision-system/
+├── backend/
+│   ├── config/
+│   │   └── db.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── decisionController.js
+│   │   └── leaveController.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Decision.js
+│   │   └── Leave.js
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── decisionRoutes.js
+│   │   └── leaveRoutes.js
+│   ├── middleware/
+│   │   └── auth.js
+│   ├── .env
+│   └── server.js
+│
+└── frontend/
+    ├── src/
+    │   ├── components/
+    │   │   ├── Navbar.js
+    │   │   └── PrivateRoute.js
+    │   ├── context/
+    │   │   └── AuthContext.js
+    │   ├── pages/
+    │   │   ├── Login.js
+    │   │   ├── Register.js
+    │   │   ├── Dashboard.js
+    │   │   ├── AddDecision.js
+    │   │   ├── EditDecision.js
+    │   │   ├── ApplyLeave.js
+    │   │   ├── MyLeaves.js
+    │   │   └── LeaveApproval.js
+    │   ├── utils/
+    │   │   └── api.js
+    │   └── App.js
+    └── package.json
+```
+
+## 🎨 Database Schema
+
+### User Model
+```javascript
+{
+  name: String,
+  email: String (unique),
+  password: String (hashed),
+  role: Enum ['faculty', 'hod', 'principal', 'admin'],
+  department: Enum ['CSE', 'ECE', 'MECH', 'CIVIL', 'EEE', ...],
+  employeeId: String (unique),
+  leaveBalance: {
+    casual: Number (default: 12),
+    sick: Number (default: 12),
+    earned: Number (default: 15),
+    maternity: Number (default: 180),
+    compensatory: Number (default: 0)
+  }
+}
+```
+
+### Decision Model
+```javascript
+{
+  title: String,
+  description: String,
+  category: Enum ['academic', 'infrastructure', 'administrative', 'leave', 'finance', 'hr'],
+  department: Enum ['CSE', 'ECE', ...],
+  priority: Enum ['low', 'medium', 'high', 'urgent'],
+  optionsConsidered: String,
+  finalDecision: String,
+  reason: String,
+  status: Enum ['pending', 'hod_approved', 'principal_approved', 'approved', 'rejected'],
+  approvedBy: Array of approver objects,
+  createdBy: ObjectId (ref: User)
+}
+```
+
+### Leave Model
+```javascript
+{
+  employee: ObjectId (ref: User),
+  leaveType: Enum ['casual', 'sick', 'earned', 'maternity', 'compensatory'],
+  fromDate: Date,
+  toDate: Date,
+  numberOfDays: Number,
+  reason: String,
+  status: Enum ['pending', 'hod_approved', 'principal_approved', 'approved', 'rejected'],
+  approvedBy: Array of approver objects,
+  department: String
+}
+```
+
+## 📸 Use Cases
+
+### 1. Academic Decision Example
+**Title**: Update Computer Networks Syllabus  
+**Category**: Academic  
+**Department**: CSE  
+**Priority**: High  
+**Workflow**: Faculty creates → HOD reviews → Principal approves
+
+### 2. Infrastructure Decision Example
+**Title**: Purchase New Lab Equipment  
+**Category**: Infrastructure  
+**Department**: ECE  
+**Priority**: Urgent  
+**Workflow**: HOD proposes → Principal approves → Management finalizes
+
+### 3. Leave Application Example
+**Type**: Casual Leave  
+**Duration**: 3 days  
+**Workflow**: Faculty applies → HOD approves → Principal approves → Admin finalizes → Leave balance updated
+
+## 🚦 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login
+- `GET /api/auth/me` - Get current user
+
+### Decisions
+- `GET /api/decisions` - Get all decisions
+- `POST /api/decisions` - Create decision
+- `PUT /api/decisions/:id` - Update decision
+- `DELETE /api/decisions/:id` - Delete decision
+
+### Leaves
+- `POST /api/leaves/apply` - Apply for leave
+- `GET /api/leaves/all` - Get all leaves (for approvers)
+- `GET /api/leaves/my-leaves` - Get my leave applications
+- `GET /api/leaves/balance` - Get leave balance
+- `PUT /api/leaves/:id/approve` - Approve/Reject leave
+
+## 👤 User Roles & Permissions
+
+| Role | Can Create Decisions | Can Approve Decisions | Can Apply Leave | Can Approve Leave | View Scope |
+|------|---------------------|----------------------|-----------------|-------------------|------------|
+| **Faculty** | ✅ | ❌ | ✅ | ❌ | Own submissions |
+| **HOD** | ✅ | ✅ (Department) | ✅ | ✅ (Department) | Department-wide |
+| **Principal** | ✅ | ✅ (All) | ✅ | ✅ (All) | Institution-wide |
+| **Admin** | ✅ | ✅ (All) | ✅ | ✅ (Final approval) | Institution-wide |
+
+## 🎯 Phase 2 Roadmap
+
+- [ ] Email notifications for approvals
+- [ ] Advanced analytics and reporting
+- [ ] Export decisions to PDF/Excel
+- [ ] Mobile app (React Native)
+- [ ] Real-time notifications (WebSocket)
+- [ ] File attachments for decisions
+- [ ] Calendar integration for leaves
+- [ ] SMS notifications
+- [ ] Dashboard widgets and charts
+- [ ] Deployment to cloud (AWS/Heroku)
+
+## 📝 License
+
+ISC License
+
+## 👩‍💻 Author
+
+**SHARMILA S**  
+Bannari Amman Institute of Technology
+
+## 🙏 Acknowledgments
+
+- MERN Stack Community
+- Bannari Amman Institute of Technology
+- Project Guide and Faculty
+
+---
+
+**Made with ❤️ for efficient institutional decision management**
