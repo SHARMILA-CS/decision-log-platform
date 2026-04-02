@@ -147,7 +147,7 @@ const getDecision = async (req, res) => {
 
 const createDecision = async (req, res) => {
   try {
-    const { title, description, optionsConsidered, finalDecision, reason, status } = req.body;
+    const { title, description,category,tags, optionsConsidered, finalDecision, reason, status } = req.body;
 
     if (!title || !description || !finalDecision || !reason) {
       return res.status(400).json({ message: 'Please fill all required fields' });
@@ -156,6 +156,8 @@ const createDecision = async (req, res) => {
     const decision = await Decision.create({
       title,
       description,
+      category,
+      tags,
       optionsConsidered,
       finalDecision,
       reason,
