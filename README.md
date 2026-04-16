@@ -790,7 +790,7 @@ This project is for educational purposes as part of college coursework.
 
 For any queries regarding this project:
 - **GitHub:** [@SHARMILA-CS](https://github.com/SHARMILA-CS)
-- **Email:** [Your Email]
+- **Email:** s.sharmila.avp@gmail.com
 
 ---
 
